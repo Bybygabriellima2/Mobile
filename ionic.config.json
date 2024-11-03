@@ -1,0 +1,7 @@
+{
+  "name": "country-search",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
