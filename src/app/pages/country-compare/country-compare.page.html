@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Comparar Países</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="comparison-container">
+    <!-- Left Country Selection -->
+    <div class="country-selector">
+      <ion-searchbar
+        *ngIf="!selectedCountry1"
+        placeholder="Buscar país..."
+        (ionInput)="handleSearch($event, 1)"
+        [debounce]="300"
+      ></ion-searchbar>
+      
+      <div *ngIf="!selectedCountry1" class="country-list">
+        <ion-item *ngFor="let country of filteredCountries1" (click)="selectCountry(country, 1)" button>
+          <ion-avatar slot="start">
+            <img [src]="country.flag" [alt]="country.name"> <!-- Corrigido -->
+          </ion-avatar>
+          <ion-label>{{ country.name }}</ion-label>
+        </ion-item>
+      </div>
+
+      <div *ngIf="selectedCountry1" class="selected-country">
+        <img [src]="selectedCountry1.flag" [alt]="selectedCountry1.name" class="country-flag">
+        <h2>{{ selectedCountry1.name }}</h2>
+        <ion-button fill="clear" (click)="selectedCountry1 = null">
+          <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Right Country Selection -->
+    <div class="country-selector">
+      <ion-searchbar
+        *ngIf="!selectedCountry2"
+        placeholder="Buscar país..."
+        (ionInput)="handleSearch($event, 2)"
+        [debounce]="300"
+      ></ion-searchbar>
+      
+      <div *ngIf="!selectedCountry2" class="country-list">
+        <ion-item *ngFor="let country of filteredCountries2" (click)="selectCountry(country, 2)" button>
+          <ion-avatar slot="start">
+            <img [src]="country.flag" [alt]="country.name"> <!-- Corrigido -->
+          </ion-avatar>
+          <ion-label>{{ country.name }}</ion-label>
+        </ion-item>
+      </div>
+
+      <div *ngIf="selectedCountry2" class="selected-country">
+        <img [src]="selectedCountry2.flag" [alt]="selectedCountry2.name" class="country-flag">
+        <h2>{{ selectedCountry2.name }}</h2>
+        <ion-button fill="clear" (click)="selectedCountry2 = null">
+          <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Results -->
+  <div *ngIf="selectedCountry1 && selectedCountry2" class="comparison-results">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Comparação</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="comparison-item">
+          <h3>População</h3>
+          <div class="comparison-values">
+            <span>{{ selectedCountry1.population | number }}</span>
+            <span class="difference">
+              Diferença: {{ getPercentageDifference(selectedCountry1.population, selectedCountry2.population) }}
+            </span>
+            <span>{{ selectedCountry2.population | number }}</span>
+          </div>
+        </div>
+
+        <div class="comparison-item">
+          <h3>Área (km²)</h3>
+          <div class="comparison-values">
+            <span>{{ selectedCountry1.area | number }}</span>
+            <span class="difference">
+              Diferença: {{ getPercentageDifference(selectedCountry1.area, selectedCountry2.area) }}
+            </span>
+            <span>{{ selectedCountry2.area | number }}</span>
+          </div>
+        </div>
+
+        <div class="comparison-item">
+          <h3>Densidade Populacional (hab/km²)</h3>
+          <div class="comparison-values">
+            <span>{{ calculatePopulationDensity(selectedCountry1) | number }}</span>
+            <span class="difference">
+              Diferença: {{ getPercentageDifference(
+                calculatePopulationDensity(selectedCountry1),
+                calculatePopulationDensity(selectedCountry2)
+              ) }}
+            </span>
+            <span>{{ calculatePopulationDensity(selectedCountry2) | number }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

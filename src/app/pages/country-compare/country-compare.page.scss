@@ -1,0 +1,81 @@
+.comparison-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .country-selector {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #fff;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .country-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  
+  .selected-country {
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+  
+    .country-flag {
+      width: 150px;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+  
+    h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  
+    ion-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+  
+  .comparison-results {
+    margin-top: 2rem;
+  
+    .comparison-item {
+      margin-bottom: 1.5rem;
+  
+      h3 {
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      .comparison-values {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1rem;
+        align-items: center;
+        text-align: center;
+  
+        .difference {
+          font-size: 0.9rem;
+          color: #666;
+          padding: 0.25rem 0.5rem;
+          background: #f5f5f5;
+          border-radius: 15px;
+        }
+      }
+    }
+  }
