@@ -1,51 +1,104 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="light">
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
     <ion-searchbar
-      placeholder="Busca de Países"
+      class="custom-searchbar"
+      placeholder="Explore países..."
       (ionInput)="handleSearch($event)"
       [debounce]="300"
-    ></ion-searchbar>
+      animated="true"
+    >
+      <ion-icon name="search-outline" slot="start"></ion-icon>
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="welcome-container">
-    <h1 class="title">Busca de Países</h1>
-    <p class="subtitle">Bem Vindo!</p>
-    <div class="globe-image">
-      <img src="assets/globe-cartoon.svg" alt="Globe cartoon">
-    </div>
-    <div class="button-container">
-      <ion-button fill="outline" color="medium" routerLink="/favorites">FAVORITOS</ion-button> <!-- Link para a página de favoritos -->
-      <ion-button fill="solid" color="dark" routerLink="/country-compare">COMPARAR</ion-button>
+<ion-content [fullscreen]="true" class="ion-padding-bottom">
+  <div class="hero-container">
+    <div class="animated-background"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Explore o Mundo</h1>
+      <p class="hero-subtitle">
+        Descubra países, culturas e curiosidades
+      </p>
+      <div class="globe-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="globe-image">
+          <circle cx="100" cy="100" r="90" fill="#4a90e2"/>
+          <path d="M30,100 q70,-40 140,0" fill="none" stroke="#fff" stroke-width="8"/>
+          <path d="M30,120 q70,-40 140,0" fill="none" stroke="#fff" stroke-width="8"/>
+          <path d="M100,30 q-40,70 0,140" fill="none" stroke="#fff" stroke-width="8"/>
+          <path d="M80,30 q-40,70 0,140" fill="none" stroke="#fff" stroke-width="8"/>
+          <path d="M120,30 q-40,70 0,140" fill="none" stroke="#fff" stroke-width="8"/>
+        </svg>
+      </div>
+      <div class="action-buttons">
+        <ion-button 
+          class="favorites-btn" 
+          fill="outline" 
+          [routerLink]="['/favorites']"
+          routerDirection="forward"
+        >
+          <ion-icon name="heart-outline" slot="start"></ion-icon>
+          Favoritos
+        </ion-button>
+        <ion-button 
+          class="compare-btn" 
+          fill="solid" 
+          [routerLink]="['/country-compare']"
+          routerDirection="forward"
+        >
+          <ion-icon name="git-compare-outline" slot="start"></ion-icon>
+          Comparar
+        </ion-button>
+      </div>
     </div>
   </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let country of filteredCountries">
-        <ion-card (click)="goToCountryDetail(country.name)">
-          <img [src]="country.flag" [alt]="country.name + ' flag'">
-          <ion-card-header>
-            <ion-card-title>{{ country.name }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p><strong>Capital:</strong> {{ country.capital }}</p>
-            <p><strong>Região:</strong> {{ country.region }}</p>
-            <p><strong >População:</strong> {{ country.population | number }}</p>
-          </ion-card-content>
-          <ion-button 
-            fill="clear" 
-            (click)="toggleFavorite(country)"
-            [color]="isFavorite(country.name) ? 'danger' : 'medium'"
-          >
-            <ion-icon 
-              [name]="isFavorite(country.name) ? 'heart' : 'heart-outline'"
-              slot="icon-only"
-            ></ion-icon>
-          </ion-button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="countries-grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let country of filteredCountries; let i = index">
+          <ion-card class="country-card" 
+                    [style.animation-delay]="i * 0.1 + 's'" 
+                    (click)="goToCountryDetail(country.name)">
+            <div class="card-image-container">
+              <img [src]="country.flag" [alt]="country.name + ' flag'" class="country-flag">
+              <div class="flag-overlay"></div>
+              <ion-button 
+                class="favorite-btn"
+                fill="clear" 
+                (click)="toggleFavorite(country); $event.stopPropagation()"
+                [class.is-favorite]="isFavorite(country.name)"
+              >
+                <ion-icon 
+                  [name]="isFavorite(country.name) ? 'heart' : 'heart-outline'"
+                  slot="icon-only"
+                ></ion-icon>
+              </ion-button>
+            </div>
+            
+            <ion-card-header>
+              <ion-card-title class="country-name">{{ country.name }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div class="country-info">
+                <div class="info-item">
+                  <ion-icon name="business-outline"></ion-icon>
+                  <span>{{ country.capital }}</span>
+                </div>
+                <div class="info-item">
+                  <ion-icon name="earth-outline"></ion-icon>
+                  <span>{{ country.region }}</span>
+                </div>
+                <div class="info-item">
+                  <ion-icon name="people-outline"></ion-icon>
+                  <span>{{ country.population | number }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

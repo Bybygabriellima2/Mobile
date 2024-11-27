@@ -1,51 +1,343 @@
-.welcome-container {
-  text-align: center;
-  padding: 2rem 1rem;
-  background-color: #f4f5f8;
-  border-radius: 10px;
-  margin-bottom: 2rem;
+/* home.page.scss */
+:host {
+  --ion-color-primary: #3880ff;
+  --ion-color-secondary: #3dc2ff;
+  --page-margin: 16px;
+  --card-border-radius: 16px;
+  --transition-duration: 0.3s;
+}
 
-  .title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 0.5rem;
+/* Animações personalizadas */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
   }
-
-  .subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 2rem;
-  }
-
-  .globe-image {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 2rem;
-    
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-
-  .button-container {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 1rem;
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
-ion-card {
-  margin: 1rem;
-  border-radius: 10px;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -40px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 1s ease-out;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 1s ease-out;
+}
+
+.custom-toolbar {
+  --background: transparent;
+  --border-width: 0;
+  padding: 1rem var(--page-margin);
+  position: relative;
+  z-index: 2;
+}
+
+.custom-searchbar {
+  --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --border-radius: 25px;
+  --placeholder-color: #666;
+  --color: #333;
+  --background: rgba(255, 255, 255, 0.95);
+  --icon-color: var(--ion-color-primary);
+  backdrop-filter: blur(10px);
+  transition: transform var(--transition-duration) ease;
+
+  &:focus-within {
+    transform: scale(1.02);
+  }
+}
+
+.hero-container {
+  position: relative;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+  padding: 3rem var(--page-margin);
+  margin-bottom: 2rem;
+  color: white;
   overflow: hidden;
+}
+
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent);
+  background-size: 60px 60px;
+  animation: moveBackground 15s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes moveBackground {
+  0% { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 1s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  animation: fadeInUp 1s ease-out 0.5s backwards;
+}
+
+.globe-container {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 2rem;
+  animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.globe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--transition-duration) ease;
+
+  &:hover {
+    transform: scale(1.1) rotate(10deg);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  animation: fadeInUp 1s ease-out 1s backwards;
+
+  ion-button {
+    --border-radius: 25px;
+    --padding-start: 2rem;
+    --padding-end: 2rem;
+    font-weight: 600;
+    height: 48px;
+    
+    &.favorites-btn {
+      --border-color: rgba(255, 255, 255, 0.9);
+      --color: white;
+      --background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      
+      &:hover {
+        --background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    
+    &.compare-btn {
+      --background: white;
+      --color: var(--ion-color-primary);
+      
+      &:hover {
+        --background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+.countries-grid {
+  padding: 0 var(--page-margin);
+  animation: fadeIn 1s ease-out 1.5s backwards;
+}
+
+.country-card {
+  margin: 0 0 1.5rem;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-duration) ease;
+  animation: fadeInUp 1s ease-out;
   
-  img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+    .flag-overlay {
+      opacity: 0.2;
+    }
+    
+    .country-flag {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.card-image-container {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.country-flag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-duration) ease;
+}
+
+.flag-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-duration) ease;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  --background: rgba(255, 255, 255, 0.95);
+  --border-radius: 50%;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  height: 42px;
+  width: 42px;
+  margin: 0;
+  transition: all var(--transition-duration) ease;
+  
+  &.is-favorite {
+    --background: var(--ion-color-danger);
+    
+    ion-icon {
+      color: white;
+      animation: heartBeat 1s ease-in-out;
+    }
+  }
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.country-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.country-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #666;
+  transition: transform var(--transition-duration) ease;
+  
+  &:hover {
+    transform: translateX(5px);
+  }
+  
+  ion-icon {
+    font-size: 1.3rem;
+    color: var(--ion-color-primary);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.3); }
+  70% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .globe-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .action-buttons ion-button {
+    height: 44px;
+    --padding-start: 1.5rem;
+    --padding-end: 1.5rem;
   }
 }
